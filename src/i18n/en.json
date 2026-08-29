@@ -1,2 +1,15 @@
 {
+    "whisper_theme_menu": "Whisper theme",
+    "analytics_enable": "Anonymous analytics",
+    "debug_show_message": "Debug information",
+    "hide_doc_breadcrumb": "Hide document breadcrumb",
+    "text_half_bg": "Text half-height background",
+    "toolbar_fusion": "Top bar fusion",
+    "appearance_light": "Light appearance",
+    "appearance_dark": "Dark appearance",
+    "text": "Text colors",
+    "scheme_native": "Native",
+    "scheme_blush": "Blush",
+    "scheme_graphite": "Graphite",
+    "scheme_rainbow": "Rainbow"
 }

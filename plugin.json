@@ -24,12 +24,16 @@
   ],
   "disabledInPublish": false,
   "displayName": {
-    "default": "Plugin Name",
-    "zh-CN": "插件名称"
+    "default": "Whisper-Plus",
+    "zh-CN": "浅吟增强",
+    "zh-TW": "淺吟增強",
+    "ja": "囁きプラス"
   },
   "description": {
-    "default": "Plugin Description",
-    "zh-CN": "插件描述"
+    "default": "Companion plugin for the Whisper theme: scheme, feature toggles and configuration menus.",
+    "zh-CN": "浅吟主题的伴生插件：配色方案、样式特性开关与配置菜单。",
+    "zh-TW": "淺吟主題的伴生外掛：配色方案、樣式特性開關與設定選單。",
+    "ja": "囁きテーマの付属プラグイン：配色、機能スイッチと設定メニュー。"
   },
   "readme": {
     "default": "README.md",

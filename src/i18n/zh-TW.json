@@ -1,0 +1,15 @@
+{
+    "whisper_theme_menu": "淺吟主題",
+    "analytics_enable": "匿名統計資訊",
+    "debug_show_message": "除錯資訊",
+    "hide_doc_breadcrumb": "隱藏文件麵包屑",
+    "text_half_bg": "文字半高背景",
+    "toolbar_fusion": "頂欄融合",
+    "appearance_light": "明亮介面配色",
+    "appearance_dark": "暗黑介面配色",
+    "text": "文字配色",
+    "scheme_native": "原生",
+    "scheme_blush": "胭脂",
+    "scheme_graphite": "石墨",
+    "scheme_rainbow": "虹色"
+}

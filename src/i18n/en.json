@@ -1,4 +1,6 @@
 {
+    "enable_whisper_theme": "Use Whisper theme",
+    "disable_whisper_theme": "Disable Whisper theme",
     "whisper_theme_menu": "Whisper theme",
     "debug_show_message": "Debug information",
     "hide_doc_breadcrumb": "Hide document breadcrumb",

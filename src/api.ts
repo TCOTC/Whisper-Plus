@@ -1,6 +1,6 @@
-type ApiRes<T = null> = { code: number; msg: string; data: T };
+export type ApiRes<T = null> = { code: number; msg: string; data: T };
 
-async function post<T = null>(url: string, body: object): Promise<ApiRes<T>> {
+export async function post<T = null>(url: string, body: object): Promise<ApiRes<T>> {
     try {
         const res = await fetch(url, {
             method: "POST",

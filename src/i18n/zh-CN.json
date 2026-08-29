@@ -1,4 +1,6 @@
 {
+    "enable_whisper_theme": "使用浅吟主题",
+    "disable_whisper_theme": "禁用浅吟主题",
     "whisper_theme_menu": "浅吟主题",
     "debug_show_message": "调试信息",
     "hide_doc_breadcrumb": "隐藏文档面包屑",

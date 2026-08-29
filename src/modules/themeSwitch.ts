@@ -35,6 +35,12 @@ export function getCurrentTheme(): string {
     return isLight ? lightTheme : darkTheme;
 }
 
+/** 获取当前外观模式 */
+export function getCurrentMode(): "light" | "dark" {
+    const { isLight } = readAppearance();
+    return isLight ? "light" : "dark";
+}
+
 /** 判断切换至目标外观模式后是否应播放主题切换动画 */
 function shouldAnimateThemeSwitch(targetIsLight: boolean): boolean {
     const { isLight, lightTheme, darkTheme } = readAppearance();

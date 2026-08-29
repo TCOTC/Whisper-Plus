@@ -46,7 +46,7 @@ export default class WhisperPlusPlugin extends Plugin {
                 // 移动端
                 this.modules.push(new MobileConfigMenu(this, this.config));  // 移动端配置菜单
             } else {
-                this.modules.push(new DesktopConfigMenu(this, this.config)); // 桌面端配置菜单
+                this.modules.push(new DesktopConfigMenu(this, this.config)); // 桌面端顶栏配置按钮：仅浅吟主题时显示，点击弹出配置菜单
                 this.modules.push(new TooltipHandler(this));                 // 悬浮提示处理：通过事件总线给 tooltip 添加特定属性
                 this.modules.push(new ElementStatusObserver());              // 元素状态观察：监听元素状态，通过给 html 添加属性来代替使用 :has 选择器
                 this.modules.push(new FileTreeClickHandler());               // 文档树点击：点击空白处取消选中文档或笔记本

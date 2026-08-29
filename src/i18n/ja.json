@@ -1,5 +1,5 @@
 {
-    "enable_whisper_theme": "浅吟テーマを使用",
+    "enable_whisper_theme": "浅吟テーマを有効にする",
     "disable_whisper_theme": "浅吟テーマを無効化",
     "whisper_theme_menu": "囁きテーマ",
     "debug_show_message": "デバッグ情報",

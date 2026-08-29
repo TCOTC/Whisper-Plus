@@ -12,5 +12,13 @@
     "scheme_native": "原生",
     "scheme_blush": "胭脂",
     "scheme_graphite": "石墨",
-    "scheme_rainbow": "虹色"
+    "scheme_rainbow": "虹色",
+    "theme_version_check_failed": "無法讀取淺吟主題版本，請檢查主題安裝",
+    "theme_version_bazaar_unavailable": "無法連線集市，無法升級淺吟主題",
+    "theme_version_upgrade_title": "升級淺吟主題",
+    "theme_version_upgrade_message": "目前淺吟主題版本為 {current}，不符合此外掛要求的版本範圍（{range}），是否升級到最新版 {target}？",
+    "theme_version_upgrade_failed": "淺吟主題升級失敗",
+    "theme_version_upgraded": "淺吟主題已升級到 {target}",
+    "theme_version_update_plugin_first": "淺吟主題最新版為 {target}，不符合目前淺吟+ 外掛支援的版本範圍（{range}），請先更新淺吟+ 外掛後再啟用主題",
+    "theme_version_latest_incompatible": "淺吟主題最新版為 {target}，仍不符合此外掛要求的版本範圍（{range}），且淺吟+ 外掛已是最新版本，無法自動升級，請聯絡主題作者"
 }

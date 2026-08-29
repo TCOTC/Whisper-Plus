@@ -12,6 +12,7 @@ import { SCHEME_MENU_DEFS, SchemeMenuDef } from "./schemeManager";
 import { getHideToolbar, setHideToolbar, post } from "../api";
 import { logging } from "../logger";
 import { getCurrentTheme, getCurrentMode } from "./themeSwitch";
+import { ThemeVersionManager } from "./themeVersionManager";
 
 /** 思源设置开关：不写入插件配置，状态与思源保持一致 */
 const SIYUAN_SETTING_HIDE_TOOLBAR = "hideToolbar";
@@ -105,11 +106,14 @@ function buildDesktopMenuHtml(config: PluginConfig, i18n: Record<string, string>
 export class DesktopConfigMenu {
     private topBarButton: HTMLElement | null = null;
     private menu: Menu | null = null;
+    private readonly themeVersionManager: ThemeVersionManager;
 
     constructor(
         private readonly plugin: Plugin,
         private readonly config: PluginConfig,
-    ) {}
+    ) {
+        this.themeVersionManager = new ThemeVersionManager(plugin);
+    }
 
     init(): void {
         this.topBarButton = this.plugin.addTopBar({
@@ -194,6 +198,10 @@ export class DesktopConfigMenu {
                 if (!installed) {
                     return;
                 }
+            }
+            // 启用前校验主题版本，不符合要求时升级；升级被取消或失败则不切换
+            if (!await this.themeVersionManager.ensureReady()) {
+                return;
             }
             await this.setCurrentModeTheme(WHISPER_THEME_NAME);
         }

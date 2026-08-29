@@ -12,5 +12,13 @@
     "scheme_native": "原生",
     "scheme_blush": "胭脂",
     "scheme_graphite": "石墨",
-    "scheme_rainbow": "虹彩"
+    "scheme_rainbow": "虹彩",
+    "theme_version_check_failed": "无法读取浅吟主题版本，请检查主题安装",
+    "theme_version_bazaar_unavailable": "无法连接集市，无法升级浅吟主题",
+    "theme_version_upgrade_title": "升级浅吟主题",
+    "theme_version_upgrade_message": "当前浅吟主题版本为 {current}，不符合本插件要求的版本范围（{range}），是否升级到最新版 {target}？",
+    "theme_version_upgrade_failed": "浅吟主题升级失败",
+    "theme_version_upgraded": "浅吟主题已升级到 {target}",
+    "theme_version_update_plugin_first": "浅吟主题最新版为 {target}，不符合当前浅吟+ 插件支持的版本范围（{range}），请先更新浅吟+ 插件后再启用主题",
+    "theme_version_latest_incompatible": "浅吟主题最新版为 {target}，仍不符合本插件要求的版本范围（{range}），且浅吟+ 插件已是最新版本，无法自动升级，请联系主题作者"
 }

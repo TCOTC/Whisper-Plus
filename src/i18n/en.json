@@ -12,5 +12,13 @@
     "scheme_native": "Native",
     "scheme_blush": "Blush",
     "scheme_graphite": "Graphite",
-    "scheme_rainbow": "Rainbow"
+    "scheme_rainbow": "Rainbow",
+    "theme_version_check_failed": "Failed to read the Whisper theme version, please check the theme installation",
+    "theme_version_bazaar_unavailable": "Unable to reach the marketplace, cannot upgrade the Whisper theme",
+    "theme_version_upgrade_title": "Upgrade Whisper theme",
+    "theme_version_upgrade_message": "The current Whisper theme version is {current}, which does not match the version range ({range}) required by this plugin. Upgrade to the latest version {target}?",
+    "theme_version_upgrade_failed": "Failed to upgrade the Whisper theme",
+    "theme_version_upgraded": "The Whisper theme has been upgraded to {target}",
+    "theme_version_update_plugin_first": "The latest Whisper theme version is {target}, which does not match the version range ({range}) supported by the current Whisper+ plugin. Please update the Whisper+ plugin first and then enable the theme",
+    "theme_version_latest_incompatible": "The latest Whisper theme version is {target}, which still does not match the version range ({range}) required by this plugin, and the Whisper+ plugin is already up to date, so the theme cannot be upgraded automatically. Please contact the theme author"
 }

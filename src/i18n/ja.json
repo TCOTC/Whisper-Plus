@@ -12,5 +12,13 @@
     "scheme_native": "ネイティブ",
     "scheme_blush": "ブラッシュ",
     "scheme_graphite": "グラファイト",
-    "scheme_rainbow": "虹色"
+    "scheme_rainbow": "虹色",
+    "theme_version_check_failed": "浅吟テーマのバージョンを読み取れません。テーマのインストールを確認してください",
+    "theme_version_bazaar_unavailable": "マーケットプレイスに接続できないため、浅吟テーマをアップグレードできません",
+    "theme_version_upgrade_title": "浅吟テーマのアップグレード",
+    "theme_version_upgrade_message": "現在の浅吟テーマのバージョンは {current} で、このプラグインが要求するバージョン範囲（{range}）を満たしていません。最新版 {target} にアップグレードしますか？",
+    "theme_version_upgrade_failed": "浅吟テーマのアップグレードに失敗しました",
+    "theme_version_upgraded": "浅吟テーマを {target} にアップグレードしました",
+    "theme_version_update_plugin_first": "浅吟テーマの最新版は {target} で、現在の浅吟+ プラグインが対応するバージョン範囲（{range}）を満たしていません。先に浅吟+ プラグインを更新してからテーマを有効にしてください",
+    "theme_version_latest_incompatible": "浅吟テーマの最新版は {target} ですが、このプラグインが要求するバージョン範囲（{range}）を満たしておらず、浅吟+ プラグインも最新版のため、自動アップグレードできません。テーマの作者に連絡してください"
 }

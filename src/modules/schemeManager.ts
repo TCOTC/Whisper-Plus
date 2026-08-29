@@ -66,9 +66,28 @@ function resolveScheme(config: PluginConfig, key: SchemeConfigKey): string {
     return fallback;
 }
 
+/**
+ * 获取当前主题模式：优先读 html 的 data-theme-mode（由思源 loadAssets 写入）；
+ * 插件初始化可能早于思源外观初始化（data-theme-mode 尚未写入），此时按配置计算，
+ * 逻辑与思源 getThemeMode 保持一致。
+ */
+function getThemeMode(): "light" | "dark" {
+    const domMode = document.documentElement.getAttribute("data-theme-mode");
+    if (domMode === "light" || domMode === "dark") {
+        return domMode;
+    }
+
+    const appearance = window.siyuan.config?.appearance;
+    if (appearance) {
+        const OSTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        return appearance.modeOS ? OSTheme : (appearance.mode === 0 ? "light" : "dark");
+    }
+    return "light";
+}
+
 function applySchemeAttributes(config: PluginConfig): void {
     const root = document.documentElement;
-    const mode = root.getAttribute("data-theme-mode");
+    const mode = getThemeMode();
 
     let appearance = "native";
     if (mode === "light") {

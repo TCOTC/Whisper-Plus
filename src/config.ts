@@ -24,17 +24,17 @@ type ConfigFieldDef =
 
 /** 插件配置声明（单一数据源：键名、类型、默认值、菜单元数据） */
 export const CONFIG_SCHEMA = {
-    /** 明亮模式界面配色（对应 data-whisper-appearance；空字符串表示原生，不写属性） */
+    /** 明亮模式界面配色（对应 data-whisper-appearance；native 表示思源原生，无属性时主题内置默认方案） */
     appearance_light: {
         type: "string",
         default: "blush",
     },
-    /** 暗黑模式界面配色（对应 data-whisper-appearance；空字符串表示原生，不写属性） */
+    /** 暗黑模式界面配色（对应 data-whisper-appearance；native 表示思源原生，无属性时主题内置默认方案） */
     appearance_dark: {
         type: "string",
         default: "graphite",
     },
-    /** 文本配色方案（对应 data-whisper-text；空字符串表示原生，不写属性、不附加样式） */
+    /** 文本配色方案（对应 data-whisper-text；native 表示思源原生，无属性时主题内置默认方案） */
     text: {
         type: "string",
         default: "rainbow",

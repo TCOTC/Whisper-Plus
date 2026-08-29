@@ -23,7 +23,7 @@ export const SCHEME_MENU_DEFS: readonly SchemeMenuDef[] = [
         key: "appearance_light",
         icon: "iconLight",
         options: [
-            { value: "", labelKey: "scheme_native" },
+            { value: "native", labelKey: "scheme_native" },
             { value: "blush", labelKey: "scheme_blush" },
         ],
     },
@@ -31,7 +31,7 @@ export const SCHEME_MENU_DEFS: readonly SchemeMenuDef[] = [
         key: "appearance_dark",
         icon: "iconDark",
         options: [
-            { value: "", labelKey: "scheme_native" },
+            { value: "native", labelKey: "scheme_native" },
             { value: "graphite", labelKey: "scheme_graphite" },
         ],
     },
@@ -39,13 +39,13 @@ export const SCHEME_MENU_DEFS: readonly SchemeMenuDef[] = [
         key: "text",
         icon: "iconFont",
         options: [
-            { value: "", labelKey: "scheme_native" },
+            { value: "native", labelKey: "scheme_native" },
             { value: "rainbow", labelKey: "scheme_rainbow" },
         ],
     },
 ];
 
-/** 各配置键对应的合法方案名（空字符串表示原生） */
+/** 各配置键对应的合法方案名（native 表示思源原生配色，无属性时主题内置默认方案） */
 export const VALID_SCHEMES = SCHEME_MENU_DEFS.reduce<Record<SchemeConfigKey, readonly string[]>>((acc, def) => {
     acc[def.key] = def.options.map((option) => option.value);
     return acc;
@@ -70,7 +70,7 @@ function applySchemeAttributes(config: PluginConfig): void {
     const root = document.documentElement;
     const mode = root.getAttribute("data-theme-mode");
 
-    let appearance = "";
+    let appearance = "native";
     if (mode === "light") {
         appearance = resolveScheme(config, "appearance_light");
     } else if (mode === "dark") {

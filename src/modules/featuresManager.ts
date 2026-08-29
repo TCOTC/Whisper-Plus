@@ -9,11 +9,16 @@ function featureAttrName(key: FeatureKey): string {
     return `data-whisper-${key.replace(/_/g, "-")}`;
 }
 
+/**
+ * 写入显式布尔值（true / false），不再移除属性。
+ * 主题 CSS 按属性值门控：默认开启的特性用 :not([attr="false"])，默认关闭的用 [attr="true"]，
+ * 未安装插件（无属性）时即应用内置默认值。
+ */
 function applyFeatureAttributes(config: PluginConfig): void {
     const root = document.documentElement;
 
     for (const key of FEATURE_KEYS) {
-        syncAttr(root, featureAttrName(key), config.get(key) ? "true" : "");
+        syncAttr(root, featureAttrName(key), config.get(key) ? "true" : "false");
     }
 }
 

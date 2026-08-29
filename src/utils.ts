@@ -74,11 +74,6 @@ export const isWindows = (): boolean => {
     return navigator.platform.toUpperCase().indexOf("WIN") > -1;
 };
 
-/** 判断是否为 Mac 系统 */
-export const isMac = (): boolean => {
-    return navigator.platform.toUpperCase().indexOf("MAC") > -1;
-};
-
 /** 判断是否为本地路径 */
 export const isLocalPath = (link: string) => {
     if (!link) {

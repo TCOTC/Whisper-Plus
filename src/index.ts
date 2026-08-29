@@ -5,7 +5,6 @@ import "./index.scss";
 import { PluginConfig, CONFIG_FILE_NAME } from "./config";
 import { SchemeManager } from "./modules/schemeManager";
 import { FeaturesManager } from "./modules/featuresManager";
-import { DeviceDetector } from "./modules/deviceDetector";
 import { DebugHandler } from "./modules/debugHandler";
 import { BlockFocusHandler } from "./modules/blockFocusHandler";
 import { ElementStatusObserver } from "./modules/elementStatusObserver";
@@ -38,7 +37,6 @@ export default class WhisperPlusPlugin extends Plugin {
             new SchemeManager(this, this.config),   // 配色方案：data-whisper-appearance / data-whisper-text
             new FeaturesManager(this.config),       // 样式特性：data-whisper-* 布尔开关
             new DebugHandler(this.config),          // 调试信息：按配置显示设备类型等消息
-            new DeviceDetector(),                   // 设备检测：添加设备类型标识，用于 CSS 选择器（避免使用 :has() 选择器导致性能问题）
             new BlockFocusHandler(),                // 块焦点处理：给焦点所在块添加属性 data-whisper-block-focus
             new FoldedListItemHandler(this),        // 聚焦折叠的列表项时自动展开
         ];

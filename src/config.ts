@@ -39,11 +39,6 @@ export const CONFIG_SCHEMA = {
         type: "string",
         default: "rainbow",
     },
-    /** 首次安装时间戳（毫秒），用于首次安装一天内不发送统计信息 */
-    install_timestamp: {
-        type: "number",
-        default: () => Date.now(),
-    },
     /** 隐藏文档面包屑：叠层透明并隐藏路径栏，保留右侧按钮（对应 data-whisper-hide-doc-breadcrumb；不影响嵌入块/反链；仅桌面端生效） */
     hide_doc_breadcrumb: {
         type: "boolean",
@@ -55,17 +50,6 @@ export const CONFIG_SCHEMA = {
         type: "boolean",
         default: true,
         menu: { icon: "iconFont", group: "feature" },
-    },
-    /** 上次发送统计信息的时间戳（毫秒） */
-    analytics_last_sent_timestamp: {
-        type: "number",
-        default: 0,
-    },
-    /** 是否启用统计信息收集 */
-    analytics_enable: {
-        type: "boolean",
-        default: true,
-        menu: { icon: "iconCloud", group: "general" },
     },
     /** 是否在启动后显示设备类型等调试消息 */
     debug_show_message: {
@@ -162,11 +146,11 @@ export function flatMapMenuGroups<T>(
     return parts;
 }
 
-/** 默认配置（由 schema 在模块加载时生成；install_timestamp 在此时记录） */
+/** 默认配置（由 schema 在模块加载时生成） */
 const DEFAULT_CONFIG = Object.fromEntries(
     (Object.keys(CONFIG_SCHEMA) as ConfigKey[]).map((key) => {
         const { default: defaultValue } = CONFIG_SCHEMA[key];
-        return [key, typeof defaultValue === "function" ? defaultValue() : defaultValue];
+        return [key, typeof defaultValue === "function" ? (defaultValue as () => ConfigValue)() : defaultValue];
     }),
 ) as ConfigObject;
 

@@ -12,7 +12,6 @@ import { TooltipHandler } from "./modules/tooltipHandler";
 import { MenuHandler } from "./modules/menuHandler";
 import { DialogHandler } from "./modules/dialogHandler";
 import { FileTreeClickHandler } from "./modules/fileTreeClickHandler";
-import { GoogleAnalytics } from "./modules/googleAnalytics";
 import { DesktopConfigMenu } from "./modules/desktopConfigMenu";
 import { MobileConfigMenu } from "./modules/mobileConfigMenu";
 import { FoldedListItemHandler } from "./modules/foldedListItemHandler";
@@ -54,7 +53,6 @@ export default class WhisperPlusPlugin extends Plugin {
                 this.modules.push(new DialogHandler());                      // 对话框处理：为搜索对话框(Dialog)添加 resize__move 类
                 this.modules.push(new MenuHandler(this));                    // 菜单处理：外观模式菜单、页签菜单
             }
-            this.modules.push(new GoogleAnalytics(this.config));             // Google 分析：发送统计信息
         }
 
         void this.initModules();

@@ -71,7 +71,6 @@ export default class WhisperPlusPlugin extends Plugin {
     }
 
     uninstall() {
-        void this.config.deleteConfig();
         this.removeData(CONFIG_FILE_NAME).catch((e: unknown) => {
             const errorMessage = `${this.displayName}: failed to uninstall remove data [${CONFIG_FILE_NAME}]: ${e instanceof Error ? e.message : String(e)}`;
             console.error(errorMessage);

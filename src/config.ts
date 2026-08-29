@@ -339,17 +339,4 @@ export class PluginConfig {
             });
         }, 500);
     }
-
-    /** 卸载插件时删除数据文件 */
-    async deleteConfig(): Promise<boolean> {
-        try {
-            await this.plugin.removeData(CONFIG_FILE_NAME);
-            this._config = { ...DEFAULT_CONFIG };
-            logging.log(`Configuration removed successfully: ${CONFIG_FILE_NAME}`);
-            return true;
-        } catch (e) {
-            logging.error(`Failed to remove configuration: ${e instanceof Error ? e.message : String(e)}`);
-            return false;
-        }
-    }
 }

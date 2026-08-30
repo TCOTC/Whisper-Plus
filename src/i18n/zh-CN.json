@@ -1,4 +1,13 @@
 {
+    "cmd_toggle_theme": "切换浅吟主题",
+    "cmd_toggle_hide_doc_breadcrumb": "切换隐藏文档面包屑",
+    "cmd_toggle_text_half_bg": "切换文本半高背景",
+    "cmd_scheme_appearance_light_native": "明亮界面配色：原生",
+    "cmd_scheme_appearance_light_blush": "明亮界面配色：胭脂",
+    "cmd_scheme_appearance_dark_native": "暗黑界面配色：原生",
+    "cmd_scheme_appearance_dark_graphite": "暗黑界面配色：石墨",
+    "cmd_scheme_text_native": "文本配色：原生",
+    "cmd_scheme_text_rainbow": "文本配色：虹彩",
     "enable_whisper_theme": "启用浅吟主题",
     "disable_whisper_theme": "禁用浅吟主题",
     "whisper_theme_menu": "浅吟主题",

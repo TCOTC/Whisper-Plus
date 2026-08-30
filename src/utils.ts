@@ -1,3 +1,5 @@
+import { getFrontend, platformUtils } from "siyuan";
+
 /** 同步元素属性：值相同时跳过；空字符串时移除属性 */
 export function syncAttr(element: HTMLElement, name: string, value: string): void {
     const current = element.getAttribute(name) ?? "";
@@ -56,20 +58,19 @@ export function isReadOnly(): boolean {
 
 /** 判断是否为移动设备（手机） */
 export const isMobile = (): boolean => {
-    return !!window.siyuan.mobile;
+    const frontend = getFrontend();
+    return frontend === "mobile" || frontend === "browser-mobile";
 };
 
 /** 判断是否为 iPad */
-export const isIPad = () => {
-    return navigator.userAgent.indexOf("iPad") > -1;
-};
+export const isIPad = () => platformUtils.isIPad();
 
 /** 判断是否为触屏设备（安卓平板只能通过这个） */
 export const isTouchDevice = () => {
     return ("ontouchstart" in window) && navigator.maxTouchPoints > 1;
 };
 
-/** 判断是否为 Windows 系统 */
+/** 判断是否为 Windows 系统（判断前端环境，而非内核后端，例如 Docker 部署时前端可能是 Windows 浏览器） */
 export const isWindows = (): boolean => {
     return navigator.platform.toUpperCase().indexOf("WIN") > -1;
 };

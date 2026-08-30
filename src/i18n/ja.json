@@ -1,4 +1,13 @@
 {
+    "cmd_toggle_theme": "浅吟テーマを切り替える",
+    "cmd_toggle_hide_doc_breadcrumb": "ドキュメントパンくずを隠す切り替え",
+    "cmd_toggle_text_half_bg": "テキスト半高背景の切り替え",
+    "cmd_scheme_appearance_light_native": "ライト外観：ネイティブ",
+    "cmd_scheme_appearance_light_blush": "ライト外観：ブラッシュ",
+    "cmd_scheme_appearance_dark_native": "ダーク外観：ネイティブ",
+    "cmd_scheme_appearance_dark_graphite": "ダーク外観：グラファイト",
+    "cmd_scheme_text_native": "テキスト配色：ネイティブ",
+    "cmd_scheme_text_rainbow": "テキスト配色：虹色",
     "enable_whisper_theme": "浅吟テーマを有効にする",
     "disable_whisper_theme": "浅吟テーマを無効化",
     "whisper_theme_menu": "囁きテーマ",

@@ -1,4 +1,13 @@
 {
+    "cmd_toggle_theme": "Toggle Whisper theme",
+    "cmd_toggle_hide_doc_breadcrumb": "Toggle hide document breadcrumb",
+    "cmd_toggle_text_half_bg": "Toggle text half-height background",
+    "cmd_scheme_appearance_light_native": "Light appearance: Native",
+    "cmd_scheme_appearance_light_blush": "Light appearance: Blush",
+    "cmd_scheme_appearance_dark_native": "Dark appearance: Native",
+    "cmd_scheme_appearance_dark_graphite": "Dark appearance: Graphite",
+    "cmd_scheme_text_native": "Text colors: Native",
+    "cmd_scheme_text_rainbow": "Text colors: Rainbow",
     "enable_whisper_theme": "Enable Whisper theme",
     "disable_whisper_theme": "Disable Whisper theme",
     "whisper_theme_menu": "Whisper theme",

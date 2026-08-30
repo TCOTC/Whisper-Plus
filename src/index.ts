@@ -3,6 +3,7 @@ import type zhCN from "./i18n/zh-CN.json";
 import "./index.scss";
 
 import { PluginConfig, CONFIG_FILE_NAME } from "./config";
+import { WHISPER_FLOWER_SYMBOL } from "./icons";
 import { SchemeManager } from "./modules/schemeManager";
 import { FeaturesManager } from "./modules/featuresManager";
 import { DebugHandler } from "./modules/debugHandler";
@@ -14,6 +15,8 @@ import { DialogHandler } from "./modules/dialogHandler";
 import { FileTreeClickHandler } from "./modules/fileTreeClickHandler";
 import { DesktopConfigMenu } from "./modules/desktopConfigMenu";
 import { MobileConfigMenu } from "./modules/mobileConfigMenu";
+import { CommandManager } from "./modules/commands";
+import { ThemeManager } from "./modules/themeManager";
 import { FoldedListItemHandler } from "./modules/foldedListItemHandler";
 import { logging } from "./logger";
 import { isMobile, isReadOnly } from "./utils";
@@ -31,6 +34,9 @@ export default class WhisperPlusPlugin extends Plugin {
     private modules: ThemeModule[] = [];
 
     onload() {
+        // 注册全局图标（#iconWhisperFlower），供顶栏按钮与菜单引用
+        this.addIcons(WHISPER_FLOWER_SYMBOL);
+
         // 注册各功能模块（配置须先初始化）
         this.modules = [
             new SchemeManager(this, this.config),   // 配色方案：data-whisper-appearance / data-whisper-text
@@ -42,17 +48,21 @@ export default class WhisperPlusPlugin extends Plugin {
 
         if (!isReadOnly()) {
             // 非只读模式
+            // 主题管理：启用/禁用浅吟主题（顶栏按钮菜单与命令面板共用）
+            const themeManager = new ThemeManager(this);
             if (isMobile()) {
                 // 移动端
-                this.modules.push(new MobileConfigMenu(this, this.config));  // 移动端配置菜单
+                this.modules.push(new MobileConfigMenu(this, this.config, themeManager));  // 移动端配置菜单
             } else {
-                this.modules.push(new DesktopConfigMenu(this, this.config)); // 桌面端顶栏配置按钮：仅浅吟主题时显示，点击弹出配置菜单
+                this.modules.push(new DesktopConfigMenu(this, this.config, themeManager)); // 桌面端顶栏配置按钮：始终显示，点击弹出配置菜单
                 this.modules.push(new TooltipHandler(this));                 // 悬浮提示处理：通过事件总线给 tooltip 添加特定属性
                 this.modules.push(new ElementStatusObserver());              // 元素状态观察：监听元素状态，通过给 html 添加属性来代替使用 :has 选择器
                 this.modules.push(new FileTreeClickHandler());               // 文档树点击：点击空白处取消选中文档或笔记本
                 this.modules.push(new DialogHandler());                      // 对话框处理：为搜索对话框(Dialog)添加 resize__move 类
                 this.modules.push(new MenuHandler(this));                    // 菜单处理：外观模式菜单、页签菜单
             }
+            // 命令面板命令：切换主题、切换特性开关、切换到特定配色
+            this.modules.push(new CommandManager(this, this.config, themeManager));
         }
 
         void this.initModules();

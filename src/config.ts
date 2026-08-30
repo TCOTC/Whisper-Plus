@@ -119,33 +119,6 @@ export const CONFIG_MOBILE_MENU_GROUPS: readonly MenuItemDef[][] = CONFIG_MENU_G
 /** 样式特性菜单项 */
 export const CONFIG_FEATURE_MENU_ITEMS = MENU_GROUP_MAP.get("feature") ?? [];
 
-/** 将分组菜单项映射为片段，组间自动插入 separator */
-export function flatMapMenuGroups<T>(
-    groups: readonly MenuItemDef[][],
-    options: {
-        leading?: () => T;
-        separator?: () => T;
-        item: (item: MenuItemDef) => T;
-    },
-): T[] {
-    const parts: T[] = [];
-
-    if (options.leading) {
-        parts.push(options.leading());
-    }
-
-    groups.forEach((items, index) => {
-        if (index > 0 && options.separator) {
-            parts.push(options.separator());
-        }
-        for (const item of items) {
-            parts.push(options.item(item));
-        }
-    });
-
-    return parts;
-}
-
 /** 默认配置（由 schema 在模块加载时生成） */
 const DEFAULT_CONFIG = Object.fromEntries(
     (Object.keys(CONFIG_SCHEMA) as ConfigKey[]).map((key) => {

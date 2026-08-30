@@ -7,7 +7,7 @@ import { compareVersions } from "../utils";
 /** 浅吟主题包名（对应 theme.json 的 name） */
 const WHISPER_THEME_NAME = "Whisper";
 
-/** 本插件要求的浅吟主题版本范围（闭区间，含两端） */
+/** 本插件要求的浅吟主题版本范围（左闭右开，含左端不含右端） */
 const MIN_THEME_VERSION = "3.0.0";
 const MAX_THEME_VERSION = "3.1.0";
 const THEME_VERSION_RANGE = `${MIN_THEME_VERSION}~${MAX_THEME_VERSION}`;
@@ -24,9 +24,9 @@ function format(template: string, values: Record<string, string>): string {
     return template.replace(/\{(\w+)\}/g, (_, key: string) => values[key] ?? `{${key}}`);
 }
 
-/** 版本号是否在要求的范围内 */
+/** 版本号是否在要求的范围内（含左端，不含右端） */
 function isVersionInRange(version: string): boolean {
-    return compareVersions(version, MIN_THEME_VERSION) >= 0 && compareVersions(version, MAX_THEME_VERSION) <= 0;
+    return compareVersions(version, MIN_THEME_VERSION) >= 0 && compareVersions(version, MAX_THEME_VERSION) < 0;
 }
 
 /**

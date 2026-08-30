@@ -210,6 +210,46 @@ export class PluginConfig {
     }
 
     /**
+     * 从磁盘重新加载配置：合并默认值后更新内存，并仅对值发生变化的键触发变更监听。
+     *
+     * 插件数据（config.json）被外部修改（如同步、手动编辑）时由 onDataChanged 调用；
+     * 各模块通过 onConfigChanged 监听自动重放状态，无需重新初始化模块。
+     */
+    async reload(): Promise<void> {
+        let config: ConfigObject | undefined;
+        try {
+            config = await this.plugin.loadData(CONFIG_FILE_NAME) as ConfigObject | undefined;
+        } catch (e) {
+            logging.error(`Failed to reload config: ${e instanceof Error ? e.message : String(e)}`);
+        }
+
+        let merged: ConfigObject;
+        let needsWriteBack: boolean;
+        if (typeof config === "object" && config !== null && !Array.isArray(config)) {
+            ({ config: merged, needsWriteBack } = mergeDefaults(config, DEFAULT_CONFIG));
+        } else {
+            // 数据文件不存在或格式不对：回退默认配置
+            merged = { ...DEFAULT_CONFIG };
+            needsWriteBack = true;
+        }
+
+        // 对比新旧值，仅对发生变化的键触发监听，使各模块按现有逻辑重放状态
+        const changedKeys = (Object.keys(DEFAULT_CONFIG) as ConfigKey[]).filter(
+            (key) => this._config[key as string] !== merged[key as string],
+        );
+        this._config = merged;
+        for (const key of changedKeys) {
+            this.configChangeListeners.get(key as string)?.forEach(listener => {
+                listener(this._config[key as string]);
+            });
+        }
+
+        if (needsWriteBack && !isReadOnly()) {
+            this.scheduleSave();
+        }
+    }
+
+    /**
      * 从旧版主题（Whisper）的 LocalStorage 配置迁移
      */
     private async tryMigrateLegacyConfig(): Promise<boolean> {

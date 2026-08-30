@@ -67,8 +67,14 @@ export default class WhisperPlusPlugin extends Plugin {
         void this.initModules();
     }
 
-    onLayoutReady() {
-        logging.log("Layout ready");
+    /**
+     * 插件数据变更时触发：从磁盘重新加载配置并更新状态。
+     *
+     * 思源检测到插件数据目录（data/storage/petal/）文件变化后调用本方法（含本插件自身的保存）；
+     * 值发生变化的配置键会通过 PluginConfig 的变更监听通知各模块自动重放状态，无需重建模块。
+     */
+    async onDataChanged(): Promise<void> {
+        await this.config.reload();
     }
 
     onunload() {

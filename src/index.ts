@@ -12,8 +12,7 @@ import { TooltipHandler } from "./modules/tooltipHandler";
 import { MenuHandler } from "./modules/menuHandler";
 import { DialogHandler } from "./modules/dialogHandler";
 import { FileTreeClickHandler } from "./modules/fileTreeClickHandler";
-import { DesktopConfigMenu } from "./modules/desktopConfigMenu";
-import { MobileConfigMenu } from "./modules/mobileConfigMenu";
+import { ConfigMenu } from "./modules/configMenu";
 import { CommandManager } from "./modules/commands";
 import { ThemeManager } from "./modules/themeManager";
 import { FoldedListItemHandler } from "./modules/foldedListItemHandler";
@@ -49,11 +48,10 @@ export default class WhisperPlusPlugin extends Plugin {
             // 非只读模式
             // 主题管理：启用/禁用浅吟主题（顶栏按钮菜单与命令面板共用）
             const themeManager = new ThemeManager(this);
-            if (isMobile()) {
-                // 移动端
-                this.modules.push(new MobileConfigMenu(this, this.config, themeManager));  // 移动端配置菜单
-            } else {
-                this.modules.push(new DesktopConfigMenu(this, this.config, themeManager)); // 桌面端顶栏配置按钮：始终显示，点击弹出配置菜单
+            // 顶栏配置菜单：内部按设备类型（isMobile）决定 popup 菜单或底部 sheet
+            this.modules.push(new ConfigMenu(this, this.config, themeManager));
+            if (!isMobile()) {
+                // 以下仅桌面端生效
                 this.modules.push(new TooltipHandler(this));                 // 悬浮提示处理：通过事件总线给 tooltip 添加特定属性
                 this.modules.push(new ElementStatusObserver());              // 元素状态观察：监听元素状态，通过给 html 添加属性来代替使用 :has 选择器
                 this.modules.push(new FileTreeClickHandler());               // 文档树点击：点击空白处取消选中文档或笔记本

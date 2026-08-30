@@ -1,11 +1,16 @@
 import type { Plugin } from "siyuan";
 import { Menu } from "siyuan";
-import { CONFIG_MENU_GROUPS, PluginConfig } from "../config";
+import { CONFIG_MENU_GROUPS, CONFIG_MOBILE_MENU_GROUPS, PluginConfig } from "../config";
+import { isMobile } from "../utils";
 import { buildConfigMenu } from "./menuBuilder";
 import { ThemeManager } from "./themeManager";
 
-/** 桌面端顶栏配置按钮：始终显示，点击弹出配置菜单 */
-export class DesktopConfigMenu {
+/**
+ * 顶栏配置菜单：桌面端为按钮弹出的 popup 菜单（含顶栏融合开关），
+ * 移动端渲染于全局菜单「扩展」分组并全屏底部弹出；菜单已打开时再次点击按钮关闭。
+ * 打开方式与菜单项按设备类型（isMobile）自动选择。
+ */
+export class ConfigMenu {
     private topBarButton: HTMLElement | null = null;
     private menu: Menu | null = null;
 
@@ -31,8 +36,8 @@ export class DesktopConfigMenu {
         this.menu = null;
     }
 
-    /** 打开配置菜单（主题开关、配色方案、特性开关、顶栏融合）；菜单已打开时点击按钮关闭 */
-    private openConfigMenu(event: MouseEvent): void {
+    /** 打开配置菜单（菜单已打开时点击按钮关闭） */
+    private openConfigMenu(event?: MouseEvent): void {
         // 菜单已打开时点击按钮关闭（关闭后 closeCB 会将 this.menu 置空）
         if (this.menu) {
             this.menu.close();
@@ -44,18 +49,24 @@ export class DesktopConfigMenu {
             this.menu = null;
         });
 
+        // 移动端底部 sheet，桌面端 popup 菜单（顶栏融合仅桌面端有意义）
+        const mobile = isMobile();
         buildConfigMenu(menu, {
             plugin: this.plugin,
             config: this.config,
             themeManager: this.themeManager,
-            includeToolbarFusion: true,
-            groups: CONFIG_MENU_GROUPS,
+            includeToolbarFusion: !mobile,
+            groups: mobile ? CONFIG_MOBILE_MENU_GROUPS : CONFIG_MENU_GROUPS,
         });
 
         this.menu = menu;
 
-        const button = event.currentTarget as HTMLElement;
-        const rect = button.getBoundingClientRect();
-        menu.open({ x: rect.left, y: rect.bottom });
+        if (mobile) {
+            menu.fullscreen("bottom");
+        } else if (event) {
+            const button = event.currentTarget as HTMLElement;
+            const rect = button.getBoundingClientRect();
+            menu.open({ x: rect.left, y: rect.bottom });
+        }
     }
 }

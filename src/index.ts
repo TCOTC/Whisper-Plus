@@ -1,6 +1,5 @@
 import { Plugin } from "siyuan";
 import type zhCN from "./i18n/zh-CN.json";
-import "./index.scss";
 
 import { PluginConfig, CONFIG_FILE_NAME } from "./config";
 import { WHISPER_FLOWER_SYMBOL } from "./icons";

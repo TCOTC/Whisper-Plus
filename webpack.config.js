@@ -1,16 +1,11 @@
 const path = require("path");
 const {EsbuildPlugin} = require("esbuild-loader");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const ZipPlugin = require("zip-webpack-plugin");
 
 module.exports = (env, argv) => {
     const production = argv.mode === "production";
-    const plugins = [
-        new MiniCssExtractPlugin({
-            filename: production ? "dist/index.css" : "index.css",
-        }),
-    ];
+    const plugins = [];
     if (production) {
         plugins.push(
             new CopyPlugin({
@@ -67,7 +62,7 @@ module.exports = (env, argv) => {
             ],
         },
         resolve: {
-            extensions: [".ts", ".scss", ".js", ".json"],
+            extensions: [".ts", ".js", ".json"],
         },
         module: {
             rules: [
@@ -80,19 +75,6 @@ module.exports = (env, argv) => {
                             options: {
                                 target: "es6",
                             },
-                        },
-                    ],
-                },
-                {
-                    test: /\.scss$/,
-                    include: [path.resolve(__dirname, "src")],
-                    use: [
-                        MiniCssExtractPlugin.loader,
-                        {
-                            loader: "css-loader", // translates CSS into CommonJS
-                        },
-                        {
-                            loader: "sass-loader", // compiles Sass to CSS
                         },
                     ],
                 },

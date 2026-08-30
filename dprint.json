@@ -7,7 +7,6 @@
   "includes": [
     "**/*.{ts,tsx,js,jsx,mjs,cjs,mts,cts}",
     "**/*.{json,jsonc}",
-    "**/*.{css,scss}",
     "**/*.{md,markdown}",
     "**/*.{yaml,yml}"
   ],
@@ -16,8 +15,7 @@
     "**/node_modules",
     "**/dist",
     "**/pnpm-lock.yaml",
-    "index.js",
-    "index.css"
+    "index.js"
   ],
   "typescript": {
     "quoteStyle": "preferDouble",

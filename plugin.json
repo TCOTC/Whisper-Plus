@@ -3,7 +3,7 @@
   "author": "Jeffrey Chen",
   "url": "https://github.com/TCOTC/Whisper-Plus",
   "version": "1.0.0",
-  "minAppVersion": "3.8.2-beta.4",
+  "minAppVersion": "3.8.4",
   "backends": ["all"],
   "frontends": ["all"],
   "disabledInPublish": true,

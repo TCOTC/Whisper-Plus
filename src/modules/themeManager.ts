@@ -1,11 +1,8 @@
 import type { Plugin } from "siyuan";
 import { post } from "../api";
 import { logging } from "../logger";
-import { getCurrentMode, getCurrentTheme } from "./themeSwitch";
+import { getCurrentMode, getCurrentTheme, WHISPER_THEME_NAME } from "./themeSwitch";
 import { ThemeVersionManager } from "./themeVersionManager";
-
-/** 浅吟主题名（对应 theme.json 的 name） */
-const WHISPER_THEME_NAME = "Whisper";
 
 /** 思源内置默认主题名（禁用浅吟后恢复） */
 const DEFAULT_THEME = { light: "daylight", dark: "midnight" } as const;

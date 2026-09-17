@@ -1,9 +1,17 @@
 import { logging } from "../logger";
 
+/** 浅吟主题包名（对应 theme.json 的 name） */
+export const WHISPER_THEME_NAME = "Whisper";
+
 const isSystemLight = () => window.matchMedia("(prefers-color-scheme: light)").matches;
 
-/** 读取当前已解析的外观模式及对应主题包名 */
-function readAppearance() {
+/**
+ * 读取当前已解析的外观模式及对应主题包名
+ *
+ * 以配置为准、html 属性作为回退：插件初始化可能早于思源外观初始化（data-theme-mode 尚未写入），
+ * 此时只能按配置计算，逻辑与思源 getThemeMode 保持一致
+ */
+export function getAppearance() {
     const appearance = window.siyuan.config?.appearance;
     let isLight: boolean;
     if (appearance?.modeOS) {
@@ -31,24 +39,24 @@ function readAppearance() {
 
 /** 获取当前主题 */
 export function getCurrentTheme(): string {
-    const { isLight, lightTheme, darkTheme } = readAppearance();
+    const { isLight, lightTheme, darkTheme } = getAppearance();
     return isLight ? lightTheme : darkTheme;
 }
 
 /** 获取当前外观模式 */
 export function getCurrentMode(): "light" | "dark" {
-    const { isLight } = readAppearance();
+    const { isLight } = getAppearance();
     return isLight ? "light" : "dark";
 }
 
 /** 判断切换至目标外观模式后是否应播放主题切换动画 */
 function shouldAnimateThemeSwitch(targetIsLight: boolean): boolean {
-    const { isLight, lightTheme, darkTheme } = readAppearance();
+    const { isLight, lightTheme, darkTheme } = getAppearance();
     if (targetIsLight === isLight) {
         // 目标模式与当前模式相同
         return false;
     }
-    if ((targetIsLight ? lightTheme : darkTheme) !== "Whisper") {
+    if ((targetIsLight ? lightTheme : darkTheme) !== WHISPER_THEME_NAME) {
         // 目标主题不是浅吟
         return false;
     }

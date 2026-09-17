@@ -37,13 +37,19 @@ export class ElementStatusObserver {
     private elementObserver: MutationObserver | null = null;
     private targets: TargetConfig[] = [];
     private destroyed = false;
+    /** 初始化代次：每次 init 递增，销毁或重新初始化后旧一轮的等待随之中止 */
+    private generation = 0;
 
     /**
      * 初始化元素状态观察器
+     *
+     * 主题切换会反复启停本模块（见 themeState.ts），因此每次初始化都需要重置销毁标记
      */
     public async init(): Promise<void> {
+        this.destroyed = false;
+        const generation = ++this.generation;
         this.setupTargets();
-        await this.startObserving();
+        await this.startObserving(generation);
     }
 
     /**
@@ -51,6 +57,7 @@ export class ElementStatusObserver {
      */
     public destroy(): void {
         this.destroyed = true;
+        this.generation++;
 
         if (this.elementObserver) {
             this.elementObserver.disconnect();
@@ -108,7 +115,7 @@ export class ElementStatusObserver {
     /**
      * 开始观察元素状态
      */
-    private async startObserving(): Promise<void> {
+    private async startObserving(generation: number): Promise<void> {
         // 创建一个 MutationObserver 实例来观察所有目标节点的变化
         this.elementObserver = new MutationObserver(mutationsList => {
             for (const mutation of mutationsList) {
@@ -127,23 +134,23 @@ export class ElementStatusObserver {
             }
         });
 
-        await Promise.all(this.targets.map(target => this.waitForTarget(target)));
+        await Promise.all(this.targets.map(target => this.waitForTarget(target, generation)));
     }
 
     /**
      * 等待并观察单个目标节点
      */
-    private async waitForTarget(target: TargetConfig): Promise<void> {
+    private async waitForTarget(target: TargetConfig, generation: number): Promise<void> {
         const element = await waitForElement(
             target.selector,
-            () => this.shouldExcludeTarget(target),
+            () => this.shouldAbortTarget(target, generation),
         );
 
-        if (this.destroyed) return;
+        if (this.destroyed || generation !== this.generation) return;
 
         if (!element) {
             target.timedOut = true;
-            if (!this.shouldExcludeTarget(target)) {
+            if (!this.shouldAbortTarget(target, generation)) {
                 logging.error(`failed to find target node: ${target.selector}`);
             }
             return;
@@ -152,6 +159,16 @@ export class ElementStatusObserver {
         target.element = element;
         target.found = true;
         this.setupObserver(target);
+    }
+
+    /**
+     * 是否应中止等待：已销毁或已开始新一轮初始化时中止，避免遗留轮询定时器
+     */
+    private shouldAbortTarget(target: TargetConfig, generation: number): boolean {
+        if (this.destroyed || generation !== this.generation) {
+            return true;
+        }
+        return this.shouldExcludeTarget(target);
     }
 
     /**

@@ -3,9 +3,7 @@ import { confirm, getFrontend, showMessage } from "siyuan";
 import { post } from "../api";
 import { logging } from "../logger";
 import { compareVersions } from "../utils";
-
-/** 浅吟主题包名（对应 theme.json 的 name） */
-const WHISPER_THEME_NAME = "Whisper";
+import { WHISPER_THEME_NAME } from "./themeSwitch";
 
 /** 本插件要求的浅吟主题版本范围（左闭右开，含左端不含右端） */
 const MIN_THEME_VERSION = "3.0.0";

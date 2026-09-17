@@ -2,6 +2,8 @@ import type { Plugin } from "siyuan";
 import { CONFIG_SCHEMA, PluginConfig, ConfigKey } from "../config";
 import { logging } from "../logger";
 import { syncAttr } from "../utils";
+import { getCurrentMode } from "./themeSwitch";
+import { subscribeThemeState } from "./themeState";
 
 /** 配色方案配置键 */
 export type SchemeConfigKey = Extract<ConfigKey, "appearance_light" | "appearance_dark" | "text">;
@@ -66,47 +68,25 @@ function resolveScheme(config: PluginConfig, key: SchemeConfigKey): string {
     return fallback;
 }
 
-/**
- * 获取当前主题模式：优先读 html 的 data-theme-mode（由思源 loadAssets 写入）；
- * 插件初始化可能早于思源外观初始化（data-theme-mode 尚未写入），此时按配置计算，
- * 逻辑与思源 getThemeMode 保持一致。
- */
-function getThemeMode(): "light" | "dark" {
-    const domMode = document.documentElement.getAttribute("data-theme-mode");
-    if (domMode === "light" || domMode === "dark") {
-        return domMode;
-    }
-
-    const appearance = window.siyuan.config?.appearance;
-    if (appearance) {
-        const OSTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-        return appearance.modeOS ? OSTheme : (appearance.mode === 0 ? "light" : "dark");
-    }
-    return "light";
-}
-
 function applySchemeAttributes(config: PluginConfig): void {
     const root = document.documentElement;
-    const mode = getThemeMode();
+    const mode = getCurrentMode();
 
-    let appearance = "native";
-    if (mode === "light") {
-        appearance = resolveScheme(config, "appearance_light");
-    } else if (mode === "dark") {
-        appearance = resolveScheme(config, "appearance_dark");
-    }
-
-    syncAttr(root, "data-whisper-appearance", appearance);
+    // 明亮与暗黑各有一套方案配置，因此属性值随外观模式变化
+    const appearanceKey: SchemeConfigKey = mode === "light" ? "appearance_light" : "appearance_dark";
+    syncAttr(root, "data-whisper-appearance", resolveScheme(config, appearanceKey));
     syncAttr(root, "data-whisper-text", resolveScheme(config, "text"));
 }
 
 /**
  * 配色方案：从 PluginConfig 读取方案名，写入 html 的 data-whisper-appearance / data-whisper-text 供主题 SCSS 消费。
  *
- * 明亮 / 暗黑切换会重载主题，届时 onload 会重新同步，无需监听 data-theme-mode。
+ * 属性值随外观模式变化（明亮 / 暗黑各有一套方案），而思源切换外观模式时不重载插件，
+ * 因此除配置变更外还需要订阅外观状态，在模式变化后按新模式重写属性。
  */
 export class SchemeManager {
     private readonly onSchemeConfigChanged: () => void;
+    private unsubscribeThemeState: (() => void) | null = null;
 
     constructor(
         private readonly plugin: Plugin,
@@ -120,9 +100,17 @@ export class SchemeManager {
         for (const key of SCHEME_KEYS) {
             this.config.onConfigChanged(key, this.onSchemeConfigChanged);
         }
+        this.unsubscribeThemeState = subscribeThemeState((state) => {
+            if (state.isWhisper) {
+                applySchemeAttributes(this.config);
+            }
+        });
     }
 
     destroy(): void {
+        this.unsubscribeThemeState?.();
+        this.unsubscribeThemeState = null;
+
         for (const key of SCHEME_KEYS) {
             this.config.offConfigChanged(key, this.onSchemeConfigChanged);
         }

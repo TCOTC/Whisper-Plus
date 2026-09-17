@@ -1,3 +1,5 @@
+> **Recent update**: Fixed the theme appearance state not updating when switching SiYuan's appearance mode
+
 # Whisper+
 
 1. Install this plugin in the marketplace and enable it

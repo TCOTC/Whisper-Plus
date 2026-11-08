@@ -105,7 +105,8 @@ export class ElementStatusObserver {
                 {
                     datasetProp: "whisperStatus",
                     attributeFilter: "class",
-                    check: el => el.classList.contains("fn__none"),
+                    // 隐藏状态栏与「显示浮动状态栏」都不占用布局高度，主题的浮动停靠栏按同一种状态处理
+                    check: el => el.classList.contains("fn__none") || el.classList.contains("status--floating"),
                     stateMap: { true: "hide", false: "show" },
                 },
             ]),
